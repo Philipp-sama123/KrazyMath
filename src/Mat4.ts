@@ -391,4 +391,17 @@ export class Mat4 {
             -s.dot(eye), -u.dot(eye), f.dot(eye), 1
         ]);
     }
+    /**
+     * Transforms a 3D point using this matrix.
+     * @param point - The 3D point to transform.
+     * @returns A new Vec3 representing the transformed point.
+     */
+    transformPoint(point: Vec3): Vec3 {
+        const e = this.elements;
+        const x = point.x, y = point.y, z = point.z;
+        const transformedX = e[0] * x + e[4] * y + e[8] * z + e[12];
+        const transformedY = e[1] * x + e[5] * y + e[9] * z + e[13];
+        const transformedZ = e[2] * x + e[6] * y + e[10] * z + e[14];
+        return new Vec3(transformedX, transformedY, transformedZ);
+    }
 }

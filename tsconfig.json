@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "types": ["node", "jest"]
+      "target": "ES6",
+      "module": "commonjs",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "outDir": "./dist",
+      "rootDir": "./src"
   },
-  "include": ["src", "tests"]
+  "include": ["src", "__tests__"], 
+  "exclude": [
+    "node_modules",   // Exclude node_modules directory
+    "dist"            // Exclude dist directory (output directory)
+  ]
 }

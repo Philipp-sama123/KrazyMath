@@ -8,9 +8,9 @@ export class Vec3 {
 
     /**
      * Creates an instance of Vec3.
-     * @param x - The x component.
-     * @param y - The y component.
-     * @param z - The z component.
+     * @param x - The x component. Default is 0.
+     * @param y - The y component. Default is 0.
+     * @param z - The z component. Default is 0.
      */
     constructor(x: number = 0, y: number = 0, z: number = 0) {
         this.x = x;
@@ -24,9 +24,12 @@ export class Vec3 {
      * @returns This vector after addition.
      */
     add(v: Vec3): Vec3 {
+        console.error("before",this);
         this.x += v.x;
         this.y += v.y;
         this.z += v.z;
+        console.error("after",this);
+
         return this;
     }
 
@@ -59,7 +62,7 @@ export class Vec3 {
      * @returns This vector after normalization.
      */
     normalize(): Vec3 {
-        const length = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+        const length = this.magnitude();
         if (length > 0) {
             this.x /= length;
             this.y /= length;
@@ -89,12 +92,12 @@ export class Vec3 {
             this.x * v.y - this.y * v.x
         );
     }
+
     /**
-      * Calculates the magnitude (length) of this vector.
-      * @returns The magnitude of the vector.
-      */
+     * Calculates the magnitude (length) of this vector.
+     * @returns The magnitude of the vector.
+     */
     magnitude(): number {
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
     }
-
 }
