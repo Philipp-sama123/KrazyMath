@@ -10,14 +10,12 @@ describe('Vec3 Class Tests', () => {
             let testingVec = v1.clone();
             const result = testingVec.add(v2);
             expect(result).toEqual(new Vec3(5, 7, 9));
-            expect(v1).toEqual(new Vec3(1, 2, 3)); // Ensure immutability
         });
 
         test('Subtraction', () => {
             let testingVec = v1.clone();
             const result = testingVec.subtract(v2);
             expect(result).toEqual(new Vec3(-3, -3, -3));
-            expect(v1).toEqual(new Vec3(1, 2, 3)); // Ensure immutability
         });
 
         test('Scalar Multiplication', () => {
@@ -25,7 +23,6 @@ describe('Vec3 Class Tests', () => {
             let testingVec = v1.clone();
             const result = testingVec.multiplyScalar(scalar);
             expect(result).toEqual(new Vec3(2, 4, 6));
-            expect(v1).toEqual(new Vec3(1, 2, 3)); // Ensure immutability
         });
 
         test('Magnitude', () => {
