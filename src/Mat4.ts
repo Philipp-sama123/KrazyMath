@@ -52,29 +52,28 @@ export class Mat4 {
     }
 
     /**
-     * Multiplies two matrices.
-     * @param a - The first matrix.
-     * @param b - The second matrix.
-     * @returns A new Mat4 instance that is the result of the multiplication.
-     */
+        * Multiplies two matrices.
+        * @param a - The first matrix.
+        * @param b - The second matrix.
+        * @returns A new Mat4 instance that is the result of the multiplication.
+        */
     static multiply(a: Mat4, b: Mat4): Mat4 {
         const ae = a.elements;
         const be = b.elements;
-        const te = new Array(16);
+        const te = new Float32Array(16);
 
-        for (let i = 0; i < 4; i++) {
-            for (let j = 0; j < 4; j++) {
-                te[i * 4 + j] = 
-                    ae[i * 4 + 0] * be[0 * 4 + j] +
-                    ae[i * 4 + 1] * be[1 * 4 + j] +
-                    ae[i * 4 + 2] * be[2 * 4 + j] +
-                    ae[i * 4 + 3] * be[3 * 4 + j];
+        for (let row = 0; row < 4; row++) {
+            for (let col = 0; col < 4; col++) {
+                te[row * 4 + col] =
+                    ae[row * 4 + 0] * be[0 * 4 + col] +
+                    ae[row * 4 + 1] * be[1 * 4 + col] +
+                    ae[row * 4 + 2] * be[2 * 4 + col] +
+                    ae[row * 4 + 3] * be[3 * 4 + col];
             }
         }
 
-        return new Mat4(te);
+        return new Mat4(Array.from(te));
     }
-
     /**
      * Transposes the current matrix.
      * @returns A new Mat4 instance that is the transposed matrix.
@@ -90,94 +89,95 @@ export class Mat4 {
     }
 
     /**
-     * Calculates the inverse of the current matrix.
-     * @returns A new Mat4 instance that is the inverse of the current matrix.
+     * Calculates the inverse of the matrix.
+     * @returns A new Mat4 instance that is the inverse of this matrix.
      */
     inverse(): Mat4 {
         const m = this.elements;
-        const inv = new Array(16);
+        const inv = new Float32Array(16);
+        let det;
 
-        inv[0] = m[5]  * m[10] * m[15] - 
-                 m[5]  * m[11] * m[14] - 
-                 m[9]  * m[6]  * m[15] + 
-                 m[9]  * m[7]  * m[14] +
-                 m[13] * m[6]  * m[11] - 
-                 m[13] * m[7]  * m[10];
+        inv[0] = m[5] * m[10] * m[15] - 
+                 m[5] * m[11] * m[14] - 
+                 m[9] * m[6] * m[15] + 
+                 m[9] * m[7] * m[14] +
+                 m[13] * m[6] * m[11] - 
+                 m[13] * m[7] * m[10];
 
-        inv[4] = -m[4]  * m[10] * m[15] + 
-                  m[4]  * m[11] * m[14] + 
-                  m[8]  * m[6]  * m[15] - 
-                  m[8]  * m[7]  * m[14] - 
-                  m[12] * m[6]  * m[11] + 
-                  m[12] * m[7]  * m[10];
+        inv[4] = -m[4] * m[10] * m[15] + 
+                  m[4] * m[11] * m[14] + 
+                  m[8] * m[6] * m[15] - 
+                  m[8] * m[7] * m[14] - 
+                  m[12] * m[6] * m[11] + 
+                  m[12] * m[7] * m[10];
 
-        inv[8] = m[4]  * m[9] * m[15] - 
-                 m[4]  * m[11] * m[13] - 
-                 m[8]  * m[5] * m[15] + 
-                 m[8]  * m[7] * m[13] + 
+        inv[8] = m[4] * m[9] * m[15] - 
+                 m[4] * m[11] * m[13] - 
+                 m[8] * m[5] * m[15] + 
+                 m[8] * m[7] * m[13] + 
                  m[12] * m[5] * m[11] - 
                  m[12] * m[7] * m[9];
 
-        inv[12] = -m[4]  * m[9] * m[14] + 
-                   m[4]  * m[10] * m[13] +
-                   m[8]  * m[5] * m[14] - 
-                   m[8]  * m[6] * m[13] - 
+        inv[12] = -m[4] * m[9] * m[14] + 
+                   m[4] * m[10] * m[13] +
+                   m[8] * m[5] * m[14] - 
+                   m[8] * m[6] * m[13] - 
                    m[12] * m[5] * m[10] + 
                    m[12] * m[6] * m[9];
 
-        inv[1] = -m[1]  * m[10] * m[15] + 
-                  m[1]  * m[11] * m[14] + 
-                  m[9]  * m[2] * m[15] - 
-                  m[9]  * m[3] * m[14] - 
+        inv[1] = -m[1] * m[10] * m[15] + 
+                  m[1] * m[11] * m[14] + 
+                  m[9] * m[2] * m[15] - 
+                  m[9] * m[3] * m[14] - 
                   m[13] * m[2] * m[11] + 
                   m[13] * m[3] * m[10];
 
-        inv[5] = m[0]  * m[10] * m[15] - 
-                 m[0]  * m[11] * m[14] - 
-                 m[8]  * m[2] * m[15] + 
-                 m[8]  * m[3] * m[14] + 
+        inv[5] = m[0] * m[10] * m[15] - 
+                 m[0] * m[11] * m[14] - 
+                 m[8] * m[2] * m[15] + 
+                 m[8] * m[3] * m[14] + 
                  m[12] * m[2] * m[11] - 
                  m[12] * m[3] * m[10];
 
-        inv[9] = -m[0]  * m[9] * m[15] + 
-                  m[0]  * m[11] * m[13] + 
-                  m[8]  * m[1] * m[15] - 
-                  m[8]  * m[3] * m[13] - 
+        inv[9] = -m[0] * m[9] * m[15] + 
+                  m[0] * m[11] * m[13] + 
+                  m[8] * m[1] * m[15] - 
+                  m[8] * m[3] * m[13] - 
                   m[12] * m[1] * m[11] + 
                   m[12] * m[3] * m[9];
 
-        inv[13] = m[0]  * m[9] * m[14] - 
-                  m[0]  * m[10] * m[13] - 
-                  m[8]  * m[1] * m[14] + 
-                  m[8]  * m[2] * m[13] + 
+        inv[13] = m[0] * m[9] * m[14] - 
+                  m[0] * m[10] * m[13] - 
+                  m[8] * m[1] * m[14] + 
+                  m[8] * m[2] * m[13] + 
                   m[12] * m[1] * m[10] - 
                   m[12] * m[2] * m[9];
 
-        inv[2] = m[1]  * m[6] * m[15] - 
-                 m[1]  * m[7] * m[14] - 
-                 m[5]  * m[2] * m[15] + 
-                 m[5]  * m[3] * m[14] + 
+        inv[2] = m[1] * m[6] * m[15] - 
+                 m[1] * m[7] * m[14] - 
+                 m[5] * m[2] * m[15] + 
+                 m[5] * m[3] * m[14] + 
                  m[13] * m[2] * m[7] - 
                  m[13] * m[3] * m[6];
 
-        inv[6] = -m[0]  * m[6] * m[15] + 
-                  m[0]  * m[7] * m[14] + 
-                  m[4]  * m[2] * m[15] - 
-                  m[4]  * m[3] * m[14] - 
+        inv[6] = -m[0] * m[6] * m[15] + 
+                  m[0] * m[7] * m[14] + 
+                  m[4] * m[2] * m[15] - 
+                  m[4] * m[3] * m[14] - 
                   m[12] * m[2] * m[7] + 
                   m[12] * m[3] * m[6];
 
-        inv[10] = m[0]  * m[5] * m[15] - 
-                  m[0]  * m[7] * m[13] - 
-                  m[4]  * m[1] * m[15] + 
-                  m[4]  * m[3] * m[13] + 
+        inv[10] = m[0] * m[5] * m[15] - 
+                  m[0] * m[7] * m[13] - 
+                  m[4] * m[1] * m[15] + 
+                  m[4] * m[3] * m[13] + 
                   m[12] * m[1] * m[7] - 
                   m[12] * m[3] * m[5];
 
-        inv[14] = -m[0]  * m[5] * m[14] + 
-                   m[0]  * m[6] * m[13] + 
-                   m[4]  * m[1] * m[14] - 
-                   m[4]  * m[2] * m[13] - 
+        inv[14] = -m[0] * m[5] * m[14] + 
+                   m[0] * m[6] * m[13] + 
+                   m[4] * m[1] * m[14] - 
+                   m[4] * m[2] * m[13] - 
                    m[12] * m[1] * m[6] + 
                    m[12] * m[2] * m[5];
 
@@ -209,10 +209,10 @@ export class Mat4 {
                   m[8] * m[1] * m[6] - 
                   m[8] * m[2] * m[5];
 
-        let det = m[0] * inv[0] + m[1] * inv[4] + m[2] * inv[8] + m[3] * inv[12];
+        det = m[0] * inv[0] + m[1] * inv[4] + m[2] * inv[8] + m[3] * inv[12];
 
         if (det === 0) {
-            return new Mat4();
+            throw new Error("Matrix is singular and cannot be inverted.");
         }
 
         det = 1.0 / det;
@@ -221,7 +221,7 @@ export class Mat4 {
             inv[i] = inv[i] * det;
         }
 
-        return new Mat4(inv);
+        return new Mat4(Array.from(inv));
     }
 
     /**

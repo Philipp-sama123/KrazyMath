@@ -21,10 +21,10 @@ describe('Mat4 Class Tests', () => {
         test('Matrix Multiplication', () => {
             const result = Mat4.multiply(matA, matB);
             const expected = new Mat4([
-                538, 612, 686, 760,
-                650, 740, 830, 920,
-                762, 868, 974, 1080,
-                874, 996, 1118, 1240
+                250, 260, 270, 280,
+                618, 644, 670, 696,
+                986, 1028, 1070, 1112,
+                1354, 1412, 1470, 1528
             ]);
             expect(result.elements).toEqual(expected.elements);
         });
@@ -42,25 +42,25 @@ describe('Mat4 Class Tests', () => {
 
         test('Inverse', () => {
             const mat = new Mat4([
-                1, 2, 3, 4,
-                5, 6, 7, 8,
-                9, 10, 11, 12,
-                13, 14, 15, 16
+                1, 2, 3, 0,
+                0, 1, 4, 0,
+                0, 0, 1, 0,
+                1, 0, 0, 1
             ]);
 
             const result = mat.inverse();
             const expected = new Mat4([
-                -4.503599627370496e15, 9.007199254740992e15, -4.503599627370496e15, 0,
-                9.007199254740992e15, -1.8014398509481984e16, 9.007199254740992e15, 0,
-                -4.503599627370496e15, 9.007199254740992e15, -4.503599627370496e15, 0,
-                0, 0, 0, 1
+                1, -2, 5, 0,
+                0, 1, -4, 0,
+                0, 0, 1, 0,
+                -1, 2, -5, 1
             ]);
+
             // Expect each element to be close due to floating-point precision
             result.elements.forEach((value, index) => {
                 expect(value).toBeCloseTo(expected.elements[index], 5);
             });
         });
-
         test('Determinant', () => {
             const result = matA.determinant();
             const expected = 0; // The determinant of this particular matrix is 0
