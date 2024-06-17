@@ -15,7 +15,6 @@ npm install KracyMath
 ### Example Usage
 
 ```sh
-typescriptƒ
 Copy code
 import { Vec3 } from 'KracyMath';
 

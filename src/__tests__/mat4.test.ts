@@ -107,7 +107,7 @@ describe('Mat4 Class Tests', () => {
 
         test('Transform Point', () => {
             const point = new Vec3(1, 1, 1);
-            const transform = Mat4.translation(new Vec3(1, 2, 3));
+            let transform = Mat4.translation(new Vec3(1, 2, 3));
             const result = transform.transformPoint(point);
             const expected = new Vec3(2, 3, 4);
             expect(result).toEqual(expected);
@@ -139,6 +139,54 @@ describe('Mat4 Class Tests', () => {
             expect(matFromArray.elements).toEqual(matA.elements);
             const arrayFromMat = matFromArray.toArray();
             expect(arrayFromMat).toEqual(array);
+        });
+    });
+      // New test for transformPoint method
+      describe('transformPoint Method', () => {
+        test('Transforms a point using the matrix', () => {
+            const point = new Vec3(1, 1, 1);
+            const matrix = new Mat4([
+                2, 0, 0, 1,
+                0, 2, 0, 2,
+                0, 0, 2, 3,
+                0, 0, 0, 1
+            ]);
+            const result = matrix.transformPoint(point);
+            const expected = new Vec3(3, 4, 5);
+            expect(result.equals(expected)).toBe(true);
+        });
+
+        test('Transforms a point with translation matrix', () => {
+            const point = new Vec3(1, 1, 1);
+            const translationMatrix = Mat4.translation(new Vec3(5, -3, 2));
+            const result = translationMatrix.transformPoint(point);
+            const expected = new Vec3(6, -2, 3);
+            expect(result.equals(expected)).toBe(true);
+        });
+
+        test('Transforms a point with identity matrix', () => {
+            const point = new Vec3(1, 2, 3);
+            let identityMatrix = new Mat4([
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1
+            ]);
+            const result = identityMatrix.transformPoint(point);
+            expect(result.equals(point)).toBe(true);
+        });
+
+        test('Transforms a point with scaling matrix', () => {
+            const point = new Vec3(1, 1, 1);
+            const scalingMatrix = new Mat4([
+                2, 0, 0, 0,
+                0, 3, 0, 0,
+                0, 0, 4, 0,
+                0, 0, 0, 1
+            ]);
+            const result = scalingMatrix.transformPoint(point);
+            const expected = new Vec3(2, 3, 4);
+            expect(result.equals(expected)).toBe(true);
         });
     });
 });
