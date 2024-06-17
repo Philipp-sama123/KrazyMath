@@ -24,12 +24,9 @@ export class Vec3 {
      * @returns This vector after addition.
      */
     add(v: Vec3): Vec3 {
-        console.error("before",this);
         this.x += v.x;
         this.y += v.y;
         this.z += v.z;
-        console.error("after",this);
-
         return this;
     }
 
@@ -81,15 +78,15 @@ export class Vec3 {
     }
 
     /**
-     * Computes the cross product with another vector.
-     * @param v - The vector to compute the cross product with.
-     * @returns A new vector that is the cross product of this vector and v.
+     * Calculates the cross product of this vector with another vector.
+     * @param {Vec3} other - The other vector.
+     * @returns {Vec3} The cross product vector.
      */
-    cross(v: Vec3): Vec3 {
+    cross(other: Vec3): Vec3 {
         return new Vec3(
-            this.y * v.z - this.z * v.y,
-            this.z * v.x - this.x * v.z,
-            this.x * v.y - this.y * v.x
+            this.y * other.z - this.z * other.y,
+            this.z * other.x - this.x * other.z,
+            this.x * other.y - this.y * other.x
         );
     }
 
@@ -99,5 +96,65 @@ export class Vec3 {
      */
     magnitude(): number {
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    }
+
+    /**
+     * Calculates the angle between this vector and another vector.
+     * @param {Vec3} other - The other vector.
+     * @returns {number} The angle in radians.
+     */
+    angleTo(other: Vec3): number {
+        const dotProduct = this.dot(other);
+        const magnitudes = this.magnitude() * other.magnitude();
+        if (magnitudes === 0) return 0;
+        return Math.acos(dotProduct / magnitudes);
+    }
+
+    /**
+     * Linearly interpolates between this vector and another vector.
+     * @param {Vec3} other - The other vector.
+     * @param {number} t - The interpolation factor (0 <= t <= 1).
+     * @returns {Vec3} The interpolated vector.
+     */
+    lerp(other: Vec3, t: number): Vec3 {
+        return new Vec3(
+            this.x + (other.x - this.x) * t,
+            this.y + (other.y - this.y) * t,
+            this.z + (other.z - this.z) * t
+        );
+    }
+
+    /**
+     * Creates a Vec3 instance from an array of numbers.
+     * @param {number[]} array - The array containing x, y, and z values.
+     * @returns {Vec3} A new Vec3 instance.
+     */
+    static fromArray(array: [number, number, number]): Vec3 {
+        return new Vec3(array[0], array[1], array[2]);
+    }
+
+    /**
+     * Converts this vector to an array.
+     * @returns {number[]} An array containing the x, y, and z values.
+     */
+    toArray(): [number, number, number] {
+        return [this.x, this.y, this.z];
+    }
+
+    /**
+     * Creates a new Vec3 instance with the same x, y, and z values.
+     * @returns {Vec3} A new Vec3 instance that is a clone of the current instance.
+     */
+    clone(): Vec3 {
+        return new Vec3(this.x, this.y, this.z);
+    }
+
+    /**
+     * Checks if another Vec3 instance has the same x, y, and z values.
+     * @param {Vec3} other - The other Vec3 instance to compare.
+     * @returns {boolean} True if the vectors are equal, otherwise false.
+     */
+    equals(other: Vec3): boolean {
+        return this.x === other.x && this.y === other.y && this.z === other.z;
     }
 }
