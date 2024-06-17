@@ -21,7 +21,7 @@
     "math",
     "typescript"
   ],
-  "author": "Your Name",
+  "author": "Philipp Stampfer",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Philipp-sama123/KracyMath/issues"
@@ -29,9 +29,7 @@
   "homepage": "https://github.com/Philipp-sama123/KracyMath#readme",
   "devDependencies": {
     "@types/jest": "^29.5.12",
-    "@typescript-eslint/eslint-plugin": "^7.13.0",
-    "@typescript-eslint/parser": "^7.13.0",
-    "eslint": "^8.57.0",
+    "globals": "^15.5.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.4",
     "typescript": "^4.9.5"

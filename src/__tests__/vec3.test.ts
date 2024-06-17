@@ -7,39 +7,33 @@ describe('Vec3 Class Tests', () => {
     describe('Basic Operations', () => {
 
         test('Addition', () => {
-            let testingVec = v1.clone();
-            const result = testingVec.add(v2);
+            const result = v1.clone().add(v2);
             expect(result).toEqual(new Vec3(5, 7, 9));
         });
 
         test('Subtraction', () => {
-            let testingVec = v1.clone();
-            const result = testingVec.subtract(v2);
+            const result = v1.clone().subtract(v2);
             expect(result).toEqual(new Vec3(-3, -3, -3));
         });
 
         test('Scalar Multiplication', () => {
             const scalar = 2;
-            let testingVec = v1.clone();
-            const result = testingVec.multiplyScalar(scalar);
+            const result = v1.clone().multiplyScalar(scalar);
             expect(result).toEqual(new Vec3(2, 4, 6));
         });
 
         test('Magnitude', () => {
-            let testingVec = v1.clone();
-            const result = testingVec.magnitude();
+            const result = v1.clone().magnitude();
             expect(result).toBeCloseTo(Math.sqrt(1 + 4 + 9), 5);
         });
 
         test('Dot Product', () => {
-            let testingVec = v1.clone();
-            const result = testingVec.dot(v2);
+            const result = v1.clone().dot(v2);
             expect(result).toBe(1 * 4 + 2 * 5 + 3 * 6);
         });
 
         test('Normalization', () => {
-            let testingVec = v1.clone();
-            const result = testingVec.normalize();
+            const result = v1.clone().normalize();
             const magnitude = v1.magnitude();
             const expected = new Vec3(1 / magnitude, 2 / magnitude, 3 / magnitude);
             expect(result.x).toBeCloseTo(expected.x);
@@ -88,7 +82,7 @@ describe('Vec3 Class Tests', () => {
         test('Clone Method', () => {
             const v1Clone = v1.clone();
             expect(v1Clone).toEqual(new Vec3(1, 2, 3));
-            expect(v1 === v1Clone).toBe(false); // Ensure they are not the same instance
+            expect(v1 === v1Clone).toBe(false);
         });
 
         test('Equality Check', () => {
